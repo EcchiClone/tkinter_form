@@ -1,14 +1,15 @@
-import tkinter as tk
-from tkinter import messagebox
-import time
-import urllib.request
-import requests
-import os
-from datetime import datetime
-from bs4 import BeautifulSoup
-import threading
-import sys
+# 기능 관해선 적당히 남긴 것 같아 수정은 이걸로 끝...
+
+import tkinter as tk # 애플리케이션 gui
+from tkinter import messagebox # tk 경고박스 등
+import os # 폴더생성 등, konachan_gui.py 참고
+from datetime import datetime # 시스템 시간
+import time # time.sleep() 등에 사용
+import threading # 스레드
+import sys # 애플리케이션 종료 등
+import urllib.request # 웹 정보에 접근, 처리 등
 import webbrowser
+from bs4 import BeautifulSoup
 
 LOGTEXT = "이 라벨은 계속 계속 업데이트 됩니다."
 BTNTEXT = "Download"
@@ -24,7 +25,7 @@ class LabelUpdate(threading.Thread):
             self.win.log.set(LOGTEXT)
             self.win.btn_txt.set(BTNTEXT)
 
-# 샘플 스레드입니다. 샘플 클래스를 호출합니다.
+# 샘플 스레드입니다. 버튼 1을 클릭 시, 샘플 클래스를 호출합니다.
 class NewThread(threading.Thread):
     def __init__(self, _window):
         threading.Thread.__init__(self)
@@ -73,11 +74,11 @@ class Application(tk.Frame):
         
         # 체크박스용 변수와 체크박스
         self.int1=tk.IntVar()
-        self.check1 = tk.Checkbutton(window, text="Safe", variable = self.int1)
+        self.check1 = tk.Checkbutton(window, text="CB1", variable = self.int1)
         self.check1.select()
 
         self.int2=tk.IntVar()
-        self.check2 = tk.Checkbutton(window, text="+R18", variable = self.int2)
+        self.check2 = tk.Checkbutton(window, text="CB2", variable = self.int2)
 
         self.check1.grid(row=2,column=1)
         self.check2.grid(row=2,column=2)
@@ -87,14 +88,12 @@ class Application(tk.Frame):
         self.quit_btn.grid(row=3,column=3,rowspan=2)
         LabelUpdate(self).start()
 
+    # 버튼 1을 클릭 시 실행합니다
     def btn1_function(self):
-        global LOGTEXT
         print("PUSH DL BUTTON")
-        if(self.v1.get()==0 and self.v2.get()==0):
-            LOGTEXT = "체크박스가 선택되지 않았습니다."
-            return
         NewThread(self).start()
 
+    # 버튼 2를 클릭 시 실행합니다
     def quit_btn_function(self):
         sys.exit()
 
@@ -111,7 +110,7 @@ window.protocol("WM_DELETE_WINDOW", on_closing)
 window.title("Simple form [ver=0.1]")
 window.iconbitmap(default='icon.ico')
 window.tk.call('wm', 'iconphoto', window._w, tk.PhotoImage(file='./icon.png'))
-window.geometry("272x120+1200+200")
+window.geometry("293x117+1200+200")
 window.resizable(False,False)
 
 # 앱 시작
